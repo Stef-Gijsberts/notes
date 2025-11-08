@@ -13,4 +13,5 @@
   [:h2 "Notes"]
   [:ul
    [:li [:a {:href (clerk/doc-url "notes/hello")} "Hello"]]
-   [:li [:a {:href (clerk/doc-url "notes/parser_combinators")} "Parser combinators"]]]])
+   [:li [:a {:href (clerk/doc-url "notes/parser_combinators")} "Parser combinators"]]
+   [:li [:a {:href (clerk/doc-url "notes/clojure_subprocesses")} "Subprocesses in Clojure"]]]])

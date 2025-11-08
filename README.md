@@ -6,7 +6,7 @@ I made this with [Clerk notebooks](https://github.com/nextjournal/clerk).
 
 ## Dependencies
 
-- Clojure >= 1.11
+- Clojure >= 1.12
 
 ## Commands
 

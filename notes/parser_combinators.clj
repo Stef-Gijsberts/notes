@@ -125,3 +125,16 @@
 
 (def binary-expression
   (concat number binary-operator number))
+
+; ## Parsers as a state machine
+;
+; Another way to represent parsers is as a state machine.
+
+(def digit
+  {:state/initial
+   {\0 {:state :state/initial :result 0}
+    \1 {:state :state/initial :result 1}}})
+
+(defn state-machine->fn [state-machine]
+  (let [t (fn [& {:keys [input state stack]}]
+            ((state-machine state) (first input)))]))
