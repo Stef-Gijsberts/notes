@@ -15,4 +15,4 @@
    [:li [:a {:href (clerk/doc-url "notes/hello")} "Hello"]]
    [:li [:a {:href (clerk/doc-url "notes/parser_combinators")} "Parser combinators"]]
    [:li [:a {:href (clerk/doc-url "notes/clojure_subprocesses")} "Subprocesses in Clojure"]]
-   [:li [:a {:href (clerk/doc-url "notes/linux_play_sine_wave")} "Play a sine wave in linux with a couple lines of code"]]]])
+   [:li [:a {:href (clerk/doc-url "notes/sinewave")} "Play a sine wave in linux with a couple lines of code"]]]])
