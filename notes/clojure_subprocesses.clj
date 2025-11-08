@@ -32,7 +32,7 @@
 
 ; And read from the stream:
 
-(defonce ls-output (slurp ls-stdout))
+(def ls-output (slurp ls-stdout))
 
 ; Okay, now let's try another process, `cat`, to know how to write.
 
