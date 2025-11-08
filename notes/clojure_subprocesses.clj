@@ -1,54 +1,73 @@
-; In this document I explore a bit about how to use the new tools for
-; subprocesses introduced in clojure 1.12.
+; # Subprocesses in Clojure
 
-; Let's first include it:
+; In this document we explore starting subprocesses and interacting with them.
+;
+; For this we include `clojure.java.process`, introduced in clojure version 1.12.
+
 (ns clojure-subprocesses
   (:require
-   [clojure.java.io :as io]
    [clojure.java.process :as p]
-   [nextjournal.clerk :as clerk]))
+   [clojure.java.io :as io]))
 
-(comment
-  (nextjournal.clerk/serve! {:watch-paths ["notes"]}))
+;
+; # A simple case with `ls`
+;
+; We will first look at `ls`. It is simple and does not take any inputs.
 
-; What's in the namespace?
+; ## Starting the process
+;
+; We use `clojure.java.process/start` for starting the process.
 
-(clerk/html
- [:table
-  [:tbody
-   (for [[sym var] (ns-publics 'clojure.java.process)]
-     (let [m (meta var)]
-       [:tr
-        [:td [:tt sym (str (:arglists m))]]
-        [:td [:pre (:doc m)]]]))]])
-
-; Let's try to start a process. I'll start `ls`, because it's simple and
-; doesn't require any inputs.
 (def ls (p/start "ls"))
 
-; We've got a process. What now? We get the output.
+
+; ## Reading its output
+;
+; To read from this `ls`, we first get its standard output.
 
 (def ls-stdout (p/stdout ls))
 
-; And read from the stream:
+; Note that it is an `InputStream`, because we can read from it. From *our*
+; perspective, it's an input.
 
-(def ls-output (slurp ls-stdout))
+; Let's read:
 
-; Okay, now let's try another process, `cat`, to know how to write.
+(slurp ls-stdout)
+
+; # A step up with `cat`
+;
+; Our next case is `cat`, which takes input *and* output.
+
+; First, we start the process again.
 
 (def cat (p/start "cat"))
 
-; Write to it:
+; ## Writing to it
+
+; To write to the process we need its standard input.
+
 (def cat-stdin (p/stdin cat))
+
+; Note that this is an `OutputStream`, because from *our* perspective, it is an
+; output (we can write to it).
+;
+; In clojure, to write to a stream, we can rebind `*out*` (normally standard
+; output) locally, so the output is written to the process instead.
+; We write three lines to `cat`
 
 (binding [*out* (io/writer cat-stdin)]
   (println "hi")
   (println "there.")
   (println "Clojure is nice!"))
 
+; ## Reading from it
+
+; To start reading, we first close `cat`'s standard input. We do this because
+; `slurp` (used later) waits for the full output.
+
 (.close cat-stdin)
 
-; Read from it:
+; Now we read it:
 
 (slurp (p/stdout cat))
 
