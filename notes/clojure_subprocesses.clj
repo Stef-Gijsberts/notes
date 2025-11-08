@@ -2,7 +2,7 @@
 
 ; In this document we explore starting subprocesses and interacting with them.
 ;
-; For this we include `clojure.java.process`, introduced in clojure version 1.12.
+; For this we use `clojure.java.process`, introduced in clojure version 1.12.
 
 (ns clojure-subprocesses
   (:require
