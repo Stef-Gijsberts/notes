@@ -11,11 +11,19 @@
 ; 
 ; (def sample-rate-hz 44000)
 ; 
-; (def aplay (p/start "aplay" "-r" (str sample-rate-hz)))
+; (def aplay (p/start "aplay" "-f" "U8" "-r" (str sample-rate-hz)))
 ; 
 ; (def aplay-stdin (p/stdin aplay))
 ; 
+; (defmulti sample->bytes (fn [format _sample] format))
+; 
+; (defmethod sample->bytes :u8 [_format sample]
+;   (byte-array [(-> sample
+;               (/ 2.0)
+;               (+ 0.5)
+;               (* 128))]))
+; 
 ; (doseq [t (range 0 sample-rate-hz)]
 ;   (.write aplay-stdin
-;           (byte (* 127 (sin (* 2 PI 440 (/ t sample-rate-hz)))))))
+;           (sample->bytes :u8 (sin (* 2 PI 440 (/ t sample-rate-hz))))))
 ; ```
