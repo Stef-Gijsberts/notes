@@ -10,14 +10,15 @@
 ;    [clojure.math :refer [PI sin]]))
 ; 
 ; (def sample-rate-hz 44000)
+; (def sample-format :u8)
 ; 
-; (def aplay (p/start "aplay" "-f" "U8" "-r" (str sample-rate-hz)))
+; (def aplay (p/start "aplay" "-f" (name sample-format) "-r" (str sample-rate-hz)))
 ; 
 ; (def aplay-stdin (p/stdin aplay))
 ; 
-; (defmulti sample->bytes (fn [format _sample] format))
+; (defmulti sample->bytes (fn [sample-format _sample] sample-format))
 ; 
-; (defmethod sample->bytes :u8 [_format sample]
+; (defmethod sample->bytes :u8 [_sample-format sample]
 ;   (byte-array [(-> sample
 ;               (/ 2.0)
 ;               (+ 0.5)
